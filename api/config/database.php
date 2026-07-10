@@ -1,10 +1,11 @@
 <?php
-// HARDCODE UNTUK SEMENTARA JIKA VERCEL ENV GAGAL DITAMBAHKAN DARI CLI
-$db_url = getenv('DATABASE_URL') ?: 'postgresql://neondb_owner:npg_Odk2c4EgSVXH@ep-green-mode-aonww1jr.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+// Mengambil konfigurasi dari Environment Variables Vercel, 
+// atau fallback ke localhost jika dijalankan lokal
+$db_url = getenv('DATABASE_URL');
 
 try {
-    if ($db_url && strpos($db_url, 'postgres') !== false) {
-        // Parse DATABASE_URL
+    if ($db_url) {
+        // Jika ada DATABASE_URL (seperti format dari Neon DB)
         $db = parse_url($db_url);
         
         $host = $db["host"];
@@ -15,7 +16,7 @@ try {
         
         $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $username, $password);
     } else {
-        // Fallback MySQL (localhost)
+        // Fallback konfigurasi lokal (MySQL)
         $host = 'localhost';
         $dbname = 'db_restoran';
         $username = 'root';
@@ -23,7 +24,9 @@ try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
     }
     
+    // Set error mode to exception
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Set default fetch mode to associative array
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Koneksi database gagal: " . $e->getMessage());

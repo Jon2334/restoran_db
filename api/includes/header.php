@@ -224,7 +224,7 @@ $user_level = isset($_SESSION['level']) && $_SESSION['level'] !== '' ? $_SESSION
 
         <ul class="list-unstyled components">
             <li class="<?= basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : '' ?>">
-                <a href="/restoran_db/dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                <a href="/dashboard.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
             </li>
             
             <li>
@@ -233,13 +233,13 @@ $user_level = isset($_SESSION['level']) && $_SESSION['level'] !== '' ? $_SESSION
                 </a>
                 <ul class="collapse list-unstyled submenu <?= in_array(basename(dirname($_SERVER['PHP_SELF'])), ['menu', 'pelanggan', 'karyawan']) ? 'show' : '' ?>" id="masterSubmenu">
                     <li class="<?= basename(dirname($_SERVER['PHP_SELF'])) == 'menu' ? 'active' : '' ?>">
-                        <a href="/restoran_db/menu/index.php">Data Menu</a>
+                        <a href="/menu/index.php">Data Menu</a>
                     </li>
                     <li class="<?= basename(dirname($_SERVER['PHP_SELF'])) == 'pelanggan' ? 'active' : '' ?>">
-                        <a href="/restoran_db/pelanggan/index.php">Data Pelanggan</a>
+                        <a href="/pelanggan/index.php">Data Pelanggan</a>
                     </li>
                     <li class="<?= basename(dirname($_SERVER['PHP_SELF'])) == 'karyawan' ? 'active' : '' ?>">
-                        <a href="/restoran_db/karyawan/index.php">Data Karyawan</a>
+                        <a href="/karyawan/index.php">Data Karyawan</a>
                     </li>
                 </ul>
             </li>
@@ -250,20 +250,20 @@ $user_level = isset($_SESSION['level']) && $_SESSION['level'] !== '' ? $_SESSION
                 </a>
                 <ul class="collapse list-unstyled submenu <?= basename(dirname($_SERVER['PHP_SELF'])) == 'transaksi' ? 'show' : '' ?>" id="transaksiSubmenu">
                     <li class="<?= (basename(dirname($_SERVER['PHP_SELF'])) == 'transaksi' && basename($_SERVER['PHP_SELF']) == 'tambah.php') ? 'active' : '' ?>">
-                        <a href="/restoran_db/transaksi/tambah.php">Input Transaksi</a>
+                        <a href="/transaksi/tambah.php">Input Transaksi</a>
                     </li>
                     <li class="<?= (basename(dirname($_SERVER['PHP_SELF'])) == 'transaksi' && basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : '' ?>">
-                        <a href="/restoran_db/transaksi/index.php">Riwayat Transaksi</a>
+                        <a href="/transaksi/index.php">Riwayat Transaksi</a>
                     </li>
                 </ul>
             </li>
             
             <li class="<?= basename(dirname($_SERVER['PHP_SELF'])) == 'laporan' ? 'active' : '' ?>">
-                <a href="/restoran_db/laporan/index.php"><i class="bi bi-file-earmark-bar-graph"></i> Laporan</a>
+                <a href="/laporan/index.php"><i class="bi bi-file-earmark-bar-graph"></i> Laporan</a>
             </li>
             
             <li>
-                <a href="/restoran_db/auth/logout.php" class="text-danger"><i class="bi bi-box-arrow-left"></i> Logout</a>
+                <a href="/auth/logout.php" class="text-danger"><i class="bi bi-box-arrow-left"></i> Logout</a>
             </li>
         </ul>
     </nav>
@@ -285,7 +285,7 @@ $user_level = isset($_SESSION['level']) && $_SESSION['level'] !== '' ? $_SESSION
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser1">
                         <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="/restoran_db/auth/logout.php"><i class="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
+                        <li><a class="dropdown-item text-danger" href="/auth/logout.php"><i class="bi bi-box-arrow-left me-2"></i>Sign out</a></li>
                     </ul>
                 </div>
             </div>
