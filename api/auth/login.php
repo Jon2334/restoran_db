@@ -4,7 +4,8 @@ require_once __DIR__ . '/../config/database.php';
 
 // Jika sudah login, langsung ke dashboard
 if (isset($_SESSION['user_id'])) {
-    header("Location: /dashboard.php");
+    session_write_close();
+            header("Location: /dashboard.php");
     exit();
 }
 
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['nama'] = $user['nama'];
             $_SESSION['level'] = $user['level'];
             
+            session_write_close();
             header("Location: /dashboard.php");
             exit();
         } else {
