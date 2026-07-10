@@ -11,11 +11,23 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Repopulate session dari cookie jika session kosong di serverless Vercel
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['user_id'])) {
+    $_SESSION['user_id'] = $_COOKIE['user_id'];
+    $_SESSION['username'] = $_COOKIE['username'] ?? '';
+    $_SESSION['nama'] = $_COOKIE['nama'] ?? '';
+    $_SESSION['level'] = $_COOKIE['level'] ?? '';
+}
+
 // Periksa apakah pengguna sudah login
 if (!isset($_SESSION['user_id']) && !isset($_COOKIE['user_id'])) {
     header("Location: /auth/login.php");
     exit();
 }
+
+// Variabel default untuk header UI agar tidak error warning/deprecated htmlspecialchars(null)
+$user_nama = isset($_SESSION['nama']) && $_SESSION['nama'] !== '' ? $_SESSION['nama'] : 'Pengguna';
+$user_level = isset($_SESSION['level']) && $_SESSION['level'] !== '' ? $_SESSION['level'] : 'User';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -31,8 +43,10 @@ if (!isset($_SESSION['user_id']) && !isset($_COOKIE['user_id'])) {
         :root {
             --sidebar-width: 250px;
         }
+        
         body {
-            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fc;
             overflow-x: hidden;
         }
         .wrapper {
@@ -43,11 +57,48 @@ if (!isset($_SESSION['user_id']) && !isset($_COOKIE['user_id'])) {
         #sidebar {
             min-width: var(--sidebar-width);
             max-width: var(--sidebar-width);
-            background: #343a40;
+            background: #212529;
             color: #fff;
             transition: all 0.3s;
             min-height: 100vh;
+            z-index: 1000;
         }
+        .sidebar-header {
+            padding: 1.5rem;
+            background: #1a1e21;
+        }
+        #sidebar ul.components {
+            padding: 1rem 0;
+        }
+        #content {
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border-radius: 0.5rem;
+        }
+        .text-gray-300 { color: #dddfeb !important; }
+        .text-gray-800 { color: #5a5c69 !important; }
+        #sidebar .nav-link {
+            padding: 1rem 1.5rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        #sidebar .nav-link:hover, #sidebar .nav-link.active {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+            border-left: 4px solid #0d6efd;
+        }
+        #sidebar .nav-link i { margin-right: 0.5rem; }
+        .topbar {
+            background-color: #fff;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+
         #sidebar.active {
             margin-left: calc(var(--sidebar-width) * -1);
         }
@@ -165,8 +216,8 @@ if (!isset($_SESSION['user_id']) && !isset($_COOKIE['user_id'])) {
                     <i class="bi bi-person-fill fs-5"></i>
                 </div>
                 <div class="ms-3">
-                    <h6 class="mb-0 fw-bold"><?= htmlspecialchars($_SESSION['nama']) ?></h6>
-                    <small class="text-info"><?= htmlspecialchars($_SESSION['level']) ?></small>
+                    <h6 class="mb-0 fw-bold"><?= htmlspecialchars($user_nama) ?></h6>
+                    <small class="text-info"><?= htmlspecialchars($user_level) ?></small>
                 </div>
             </div>
         </div>
@@ -228,7 +279,7 @@ if (!isset($_SESSION['user_id']) && !isset($_COOKIE['user_id'])) {
                 <span class="text-muted me-3"><?= date('l, d F Y') ?></span>
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['nama']) ?>&background=0D8ABC&color=fff" alt="mdo" width="32" height="32" class="rounded-circle me-2">
+                        <img src="https://ui-avatars.com/api/?name=<?= urlencode($user_nama) ?>&background=0D8ABC&color=fff" alt="mdo" width="32" height="32" class="rounded-circle me-2">
                         <strong><?= htmlspecialchars($_SESSION['username']) ?></strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser1">
