@@ -11,7 +11,13 @@ try {
         $password = $db["pass"];
         $dbname = ltrim($db["path"], "/");
         
-        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $username, $password);
+        $options = [
+            PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_TIMEOUT => 3 // Don't hang forever
+        ];
+        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require", $username, $password, $options);
     } else {
         $host = 'localhost';
         $dbname = 'db_restoran';
@@ -20,9 +26,9 @@ try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
     }
     
-    $pdo->setAttribute(PDO::ATTR_PERSISTENT, true);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    
+    
+    
 } catch (PDOException $e) {
     die("Koneksi database gagal: " . $e->getMessage());
 }
