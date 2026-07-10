@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Username dan password wajib diisi!";
     } else {
         // Cek user di database
-        $stmt = $pdo->prepare("SELECT * FROM user WHERE username = :username LIMIT 1");
+        $stmt = $pdo->prepare("SELECT * FROM "user" WHERE username = :username LIMIT 1");
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch();
 
