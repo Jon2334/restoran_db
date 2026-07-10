@@ -13,7 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../config/database.php';
 
 // Jika sudah login, langsung ke dashboard
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id']) || isset($_COOKIE['user_id'])) {
     session_write_close();
             header("Location: /dashboard.php");
     exit();
@@ -37,9 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($user && password_verify($password, $user['password'])) {
             // Set session
+            setcookie('user_id', $user['id'], time() + 86400, '/');
             $_SESSION['user_id'] = $user['id'];
+            setcookie('username', $user['username'], time() + 86400, '/');
             $_SESSION['username'] = $user['username'];
+            setcookie('nama', $user['nama'], time() + 86400, '/');
             $_SESSION['nama'] = $user['nama'];
+            setcookie('level', $user['level'], time() + 86400, '/');
             $_SESSION['level'] = $user['level'];
             
             session_write_close();

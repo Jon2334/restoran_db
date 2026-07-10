@@ -12,7 +12,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Periksa apakah pengguna sudah login
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id']) && !isset($_COOKIE['user_id'])) {
     header("Location: /auth/login.php");
     exit();
 }
