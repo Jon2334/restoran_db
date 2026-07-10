@@ -1,0 +1,23 @@
+const fs = require('fs');
+
+let config = {
+  "functions": {
+    "api/**/*.php": { "runtime": "vercel-php@0.7.1" }
+  },
+  "routes": [
+    { "src": "/auth/(.*)", "dest": "/api/auth/$1" },
+    { "src": "/config/(.*)", "dest": "/api/config/$1" },
+    { "src": "/database/(.*)", "dest": "/api/database/$1" },
+    { "src": "/includes/(.*)", "dest": "/api/includes/$1" },
+    { "src": "/karyawan/(.*)", "dest": "/api/karyawan/$1" },
+    { "src": "/laporan/(.*)", "dest": "/api/laporan/$1" },
+    { "src": "/menu/(.*)", "dest": "/api/menu/$1" },
+    { "src": "/pelanggan/(.*)", "dest": "/api/pelanggan/$1" },
+    { "src": "/transaksi/(.*)", "dest": "/api/transaksi/$1" },
+    { "src": "/dashboard.php", "dest": "/api/dashboard.php" },
+    { "src": "/", "dest": "/api/index.php" },
+    { "src": "/(.*)", "dest": "/api/$1" }
+  ]
+};
+
+fs.writeFileSync('vercel.json', JSON.stringify(config, null, 2));
