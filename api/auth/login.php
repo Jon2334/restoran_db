@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($user && password_verify($password, $user['password'])) {
             // Set session
-            setcookie('user_id', $user['id'], time() + 86400, '/');
+            setcookie('user_id', $user['id'], time() + 86400, '/', '', true, true);
             $_SESSION['user_id'] = $user['id'];
             setcookie('username', $user['username'], time() + 86400, '/');
             $_SESSION['username'] = $user['username'];
